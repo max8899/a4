@@ -56,7 +56,6 @@ static void readPPMHeader(FILE *fp, int *width, int *height, int *maxval)
 PPM_IMAGE *read_ppm(const char *file_name)
 {
     int width, height, maxval, num, size;
-    unsigned char *p;
 
     PPM_IMAGE *image = (PPM_IMAGE *) malloc(sizeof(PPM_IMAGE));
     FILE  *fp    = fopen(file_name, "r");
@@ -99,5 +98,15 @@ void write_ppm(const char *file_name, const PPM_IMAGE *image)
   if (num != size) die("cannot write image data to file");
 
   fclose(fp);
+}
+
+void free_image(PPM_IMAGE *p)
+{
+  if (NULL != p) {
+    if (NULL != p->data) {
+      free(p->data);
+    }
+    free(p);
+  }
 }
 
